@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;   /* prevent any component from causing page-level horizontal scroll */
+    max-width: 100vw;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fdfaf5;
+    color: #7a8a7e;
+    font-size: 14px;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Google Sans (Nunito Sans) for all headings with subtle drop shadow */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito Sans', 'Inter', sans-serif;
+    font-weight: 600;
+    color: #1a3a2e;
+    line-height: 1.3;
+    text-shadow: 0 2px 8px rgba(26, 58, 46, 0.13);
+  }
+}
+
+@layer utilities {
+  /* Chip scroll strip — left-to-right (chips flow in from left side) */
+  .chip-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    /* translateX(-50% → 0) = content drifts left-to-right, loops seamlessly */
+    animation: scroll-rtl 18s linear infinite;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+  }
+  @keyframes scroll-rtl {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0%);   }
+  }
+  .chip-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d4a843;
+  }
+
+  /* Pill button base */
+  .btn-pill {
+    border-radius: 24px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .btn-pill:active { transform: scale(0.97); }
+
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    background: rgba(10, 25, 20, 0.55);
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* Custom scrollbar for body */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #e8f5ee; }
+::-webkit-scrollbar-thumb { background: #c8ddd0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2d6a4f; }

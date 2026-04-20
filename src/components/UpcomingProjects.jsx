@@ -3,29 +3,26 @@ import { motion } from 'framer-motion';
 
 const PROJECTS = [
   {
-    name:       'M3M Golfestate',
-    type:       'Residential',
-    location:   'sector 65, Gurgaon ',
-    // possession: 'Dec 2026',
-    bg:         'linear-gradient(135deg,#1a3a2e,#2d6a4f)',
+    name:     'M3M Golfestate',
+    type:     'Residential',
+    location: 'Sector 65, Gurgaon',
+    bg:       'linear-gradient(135deg,#1a3a2e,#2d6a4f)',
   },
   {
-    name:       'Trump Towers',
-    type:       'Residential',
-    location:   'Sector 65, Gurgaon',
-    // possession: 'Mar 2027',
-    bg:         'linear-gradient(135deg,#0a1f1a,#1a3a2e)',
+    name:     'Trump Towers',
+    type:     'Residential',
+    location: 'Sector 65, Gurgaon',
+    bg:       'linear-gradient(135deg,#0a1f1a,#1a3a2e)',
   },
   {
-    name:       'M3M Route 65',
-    type:       'Commercial',
-    location:   'Sector 65, Gurgaon',
-    // possession: 'Jun 2026',
-    bg:         'linear-gradient(135deg,#1f3622,#2a5232)',
+    name:     'M3M Route 65',
+    type:     'Commercial',
+    location: 'Sector 65, Gurgaon',
+    bg:       'linear-gradient(135deg,#1f3622,#2a5232)',
   },
 ];
 
-export default function UpcomingProjects() {
+export default function UpcomingProjects({ onEnquire }) {
   return (
     <section id="upcoming" className="py-14 md:py-20 px-4 md:px-6" style={{ background: '#fdfaf5' }}>
       <div className="max-w-7xl mx-auto">
@@ -42,14 +39,16 @@ export default function UpcomingProjects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.45, delay: i * 0.1 }}
-              className="rounded-2xl overflow-hidden"
+              className="rounded-2xl overflow-hidden cursor-pointer group"
               style={{ background: '#fff', border: '1px solid #2d6a4f' }}
+              onClick={() => onEnquire && onEnquire(proj)}
             >
               {/* Property image area */}
               <div
-                className="h-20 w-full"
+                className="h-32 w-full transition-all duration-300 group-hover:h-36"
                 style={{ background: proj.bg }}
               />
+
               {/* Card body */}
               <div className="p-5">
                 <span
@@ -61,9 +60,18 @@ export default function UpcomingProjects() {
                 <h3 className="text-[16px] font-medium mb-2" style={{ color: '#1a3a2e' }}>
                   {proj.name}
                 </h3>
-                <div className="flex items-center justify-between text-[12px]" style={{ color: '#7a8a7e' }}>
-                  <span>📍 {proj.location}</span>
-                  <span style={{ color: '#d4a843' }}>⏳ {proj.possession}</span>
+                <p className="text-[12px] mb-4" style={{ color: '#7a8a7e' }}>
+                  📍 {proj.location}
+                </p>
+
+                {/* Enquire button */}
+                <div
+                  className="w-full py-2 rounded-xl text-[13px] font-medium text-center transition-colors duration-150"
+                  style={{ background: '#e8f5ee', color: '#2d6a4f' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = '#d4eadb')}
+                  onMouseLeave={e => (e.currentTarget.style.background = '#e8f5ee')}
+                >
+                  Enquire Now →
                 </div>
               </div>
             </motion.div>

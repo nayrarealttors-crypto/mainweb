@@ -26,7 +26,7 @@ export default function Home() {
         <ContactSection />
         <ReelsSection />
         <FounderSection />
-        <UpcomingProjects />
+        <UpcomingProjects onEnquire={(proj) => setEnquirySlide({ title: proj.name, category: proj.type, location: proj.location })} />
       </main>
 
       <Footer onContactClick={() => setContactModalOpen(true)} />

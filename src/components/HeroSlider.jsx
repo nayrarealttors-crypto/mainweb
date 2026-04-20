@@ -158,7 +158,7 @@ export default function HeroSlider({ onSlideClick }) {
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.18 }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            style={{ zIndex: 3 }}
+            style={{ zIndex: 3, left: '31%' }}
           >
             <div
               className="bg-white rounded-2xl px-6 py-3 text-sm font-medium flex items-center gap-2 shadow-xl"

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import API_BASE from '../apiBase';
 
 const PROJECT_TYPES = [
   'Fresh Projects',
@@ -26,7 +27,7 @@ export default function ContactSection() {
     if (!form.name.trim()) { setMessage('Please enter your name.'); setStatus('error'); return; }
     setStatus('loading');
     try {
-      const res = await fetch('/api/enquiries', {
+      const res = await fetch(`${API_BASE}/api/enquiries`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ ...form, source: 'contact_section' }),

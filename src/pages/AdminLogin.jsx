@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE from '../apiBase';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function AdminLogin() {
     if (!form.username || !form.password) { setError('Please fill in all fields.'); return; }
     setLoading(true);
     try {
-      const res  = await fetch('/api/admin/login', {
+      const res  = await fetch(`${API_BASE}/api/admin/login`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(form),

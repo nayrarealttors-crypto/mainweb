@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import API_BASE from '../apiBase';
 
 const INITIAL = { name: '', email: '', mobile: '' };
 
@@ -30,7 +31,7 @@ export default function EnquiryModal({ slide, onClose }) {
     if (!form.name.trim()) { setMessage('Please enter your full name.'); setStatus('error'); return; }
     setStatus('loading');
     try {
-      const res = await fetch('/api/enquiries', {
+      const res = await fetch(`${API_BASE}/api/enquiries`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

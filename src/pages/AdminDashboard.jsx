@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_BASE from '../apiBase';
 
 export default function AdminDashboard() {
   const navigate  = useNavigate();
   const username  = localStorage.getItem('se_admin_username') || 'Admin';
 
-  const [enquiries, setEnquiries] = useState([]);
-  const [loading,   setLoading]   = useState(true);
-  const [error,     setError]     = useState('');
+  const [enquiries,    setEnquiries]    = useState([]);
+  const [loading,      setLoading]      = useState(true);
+  const [error,        setError]        = useState('');
+  const [emailStatus,  setEmailStatus]  = useState(null);
+  const [testingEmail, setTestingEmail] = useState(false);
+  const [toast,        setToast]        = useState(null);
 
   const token = localStorage.getItem('se_admin_token');
 
@@ -15,7 +19,7 @@ export default function AdminDashboard() {
     setLoading(true);
     setError('');
     try {
-      const res  = await fetch('/api/admin/enquiries', {
+      const res  = await fetch(`${API_BASE}/api/admin/enquiries`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.status === 401) { logout(); return; }
@@ -28,7 +32,11 @@ export default function AdminDashboard() {
     }
   }, [token]);
 
-  useEffect(() => { fetchEnquiries(); }, [fetchEnquiries]);
+  useEffect(() => {
+    fetchEnquiries();
+    fetch(`${API_BASE}/api/admin/email-status`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json()).then(setEmailStatus).catch(() => {});
+  }, [fetchEnquiries]);
 
   function logout() {
     localStorage.removeItem('se_admin_token');
@@ -36,10 +44,32 @@ export default function AdminDashboard() {
     navigate('/admin/login');
   }
 
+  function showToast(msg, ok = true) {
+    setToast({ msg, ok });
+    setTimeout(() => setToast(null), 4000);
+  }
+
+  async function sendTestEmail() {
+    setTestingEmail(true);
+    try {
+      const res  = await fetch(`${API_BASE}/api/admin/test-email`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok) showToast(data.message, true);
+      else        showToast(data.error, false);
+    } catch {
+      showToast('Network error — could not reach backend.', false);
+    } finally {
+      setTestingEmail(false);
+    }
+  }
+
   async function handleDelete(id) {
     if (!confirm('Delete this enquiry?')) return;
     try {
-      await fetch(`/api/admin/enquiries/${id}`, {
+      await fetch(`${API_BASE}/api/admin/enquiries/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -60,6 +90,21 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen" style={{ background: '#f0f7f3' }}>
+      {/* Toast notification */}
+      {toast && (
+        <div
+          className="fixed top-5 right-5 z-50 px-5 py-3 rounded-xl text-[13px] font-medium shadow-lg"
+          style={{
+            background: toast.ok ? '#1a3a2e' : '#c0392b',
+            color: '#fff',
+            maxWidth: 340,
+            animation: 'fadeIn .2s ease',
+          }}
+        >
+          {toast.ok ? '✓ ' : '✗ '}{toast.msg}
+        </div>
+      )}
+
       {/* Top bar */}
       <header
         className="sticky top-0 z-10 bg-white px-6 py-4 flex items-center justify-between"
@@ -73,7 +118,7 @@ export default function AdminDashboard() {
             SE
           </div>
           <div>
-            <p className="text-[14px] font-medium" style={{ color: '#1a3a2e' }}>Shobha Estates</p>
+            <p className="text-[14px] font-medium" style={{ color: '#1a3a2e' }}>Nayra Realttors</p>
             <p className="text-[11px]" style={{ color: '#7a8a7e' }}>Admin Dashboard</p>
           </div>
         </div>
@@ -96,20 +141,47 @@ export default function AdminDashboard() {
       {/* Content */}
       <main className="px-4 md:px-8 py-8 max-w-screen-xl mx-auto">
         {/* Stats bar */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <p className="eyebrow mb-1">All Submissions</p>
             <h1 className="text-2xl font-medium" style={{ color: '#1a3a2e' }}>
               Enquiry Inbox
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Email status badge */}
+            {emailStatus && (
+              <span
+                className="px-3 py-1.5 rounded-full text-[12px] font-medium"
+                style={{
+                  background: emailStatus.configured ? '#d4eadb' : '#fdecea',
+                  color:      emailStatus.configured ? '#1a3a2e' : '#c0392b',
+                }}
+              >
+                {emailStatus.configured ? '✉ Email ON' : '✉ Email OFF — set SMTP vars'}
+              </span>
+            )}
             <span
               className="px-4 py-1.5 rounded-full text-[13px] font-medium"
               style={{ background: '#d4eadb', color: '#1a3a2e' }}
             >
               {enquiries.length} Total
             </span>
+            <button
+              onClick={sendTestEmail}
+              disabled={testingEmail}
+              className="btn-pill px-4 py-2 text-[13px] font-medium"
+              style={{
+                background: '#fff',
+                border: '1px solid #2d6a4f',
+                color: '#2d6a4f',
+                opacity: testingEmail ? 0.6 : 1,
+              }}
+              onMouseEnter={e => { if (!testingEmail) e.currentTarget.style.background = '#e8f5ee'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+            >
+              {testingEmail ? 'Sending…' : '✉ Test Email'}
+            </button>
             <button
               onClick={fetchEnquiries}
               className="btn-pill px-4 py-2 text-[13px] text-white font-medium"

@@ -31,7 +31,7 @@ export default function Footer({ onContactClick }) {
           <div className="flex items-center gap-3 mb-4">
             <img
               src="/firmlogo.png"
-              alt="Shobha Estates"
+              alt="Nayra Realttors"
               className="h-10 w-auto object-contain flex-shrink-0"
               style={{ filter: 'brightness(0) invert(1)' }}
             />
@@ -130,7 +130,7 @@ export default function Footer({ onContactClick }) {
         className="max-w-7xl mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px]"
         style={{ borderTop: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.4)' }}
       >
-        <p>© {new Date().getFullYear()} Shobha Estates. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Nayra Realttors. All rights reserved.</p>
         <div className="flex items-center gap-4">
           <a href="#" style={{ ...linkStyle, fontSize: 12 }} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>Privacy Policy</a>
           <span style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>

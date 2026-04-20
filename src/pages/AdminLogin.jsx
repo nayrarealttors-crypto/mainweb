@@ -56,7 +56,7 @@ export default function AdminLogin() {
             SE
           </div>
           <h1 className="text-xl font-medium" style={{ color: '#1a3a2e' }}>Admin Portal</h1>
-          <p className="text-[13px] mt-1" style={{ color: '#7a8a7e' }}>Shobha Estates</p>
+          <p className="text-[13px] mt-1" style={{ color: '#7a8a7e' }}>Nayra Realttors</p>
         </div>
 
         <div

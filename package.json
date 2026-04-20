@@ -1,7 +1,7 @@
 {
   "name": "shobha-estates-frontend",
   "version": "1.0.0",
-  "description": "Shobha Estates real estate website frontend",
+  "description": "Nayra Realttors real estate website frontend",
   "type": "module",
   "scripts": {
     "dev": "vite",

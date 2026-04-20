@@ -29,7 +29,7 @@ export default function Header({ onContactClick }) {
         <div className="flex items-center gap-2 select-none flex-shrink-0">
           <img
             src="/firmlogo.png"
-            alt="Shobha Estates"
+            alt="Nayra Realttors"
             className="h-9 md:h-11 w-auto object-contain flex-shrink-0"
           />
         </div>

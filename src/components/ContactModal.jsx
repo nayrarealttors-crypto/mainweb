@@ -51,6 +51,7 @@ export default function ContactModal({ open, onClose }) {
         }),
       });
       if (!res.ok) throw new Error('failed');
+      window.fbq?.('track', 'Lead', { content_name: form.project_name, content_category: form.project_type, source: 'contact_button' });
       setStatus('success');
       setMessage('Thank you! We will reach out to you shortly.');
     } catch {

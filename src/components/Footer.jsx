@@ -37,7 +37,7 @@ export default function Footer({ onContactClick }) {
             />
           </div>
           <p className="text-[13px] leading-[1.85] mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            Building dreams and delivering homes across Bengaluru since 2010.
+            Building dreams and delivering homes across Gurgaon since 2010.
             Quality. Trust. Excellence.
           </p>
           {/* Instagram link */}

@@ -44,6 +44,7 @@ export default function EnquiryModal({ slide, onClose }) {
         }),
       });
       if (!res.ok) throw new Error('failed');
+      window.fbq?.('track', 'Lead', { content_name: slide.title, content_category: slide.category, source: 'slider' });
       setStatus('success');
       setMessage('Thank you! Our team will contact you soon.');
     } catch {
